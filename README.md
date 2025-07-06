@@ -11,6 +11,10 @@
 - Configs and schemas are both in yaml format
 - Exports a pdf
 
+## Latest theme
+
+See my resume as example : [myresume.pdf](myresume.pdf)
+
 ## Install
 
 Requires python3.11

@@ -7,5 +7,4 @@ kashyyyk/__pycache__
 docs/_build/
 **/*.pyc
 /venv
-*.pdf
 venv
