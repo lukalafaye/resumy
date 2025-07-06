@@ -3,8 +3,6 @@
 [![PyPI version](https://badge.fury.io/py/resumy.svg)](https://badge.fury.io/py/resumy)
 ![build status](https://github.com/alexlren/estel_secp256k1/actions/workflows/ci.yaml/badge.svg)
 
-<img src="/docs/demo.png" width="300"/>
-
 ### Features
 
 - Now supports the [jsonresume](https://jsonresume.org/schema/) format
