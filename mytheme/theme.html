@@ -1,0 +1,225 @@
+{%- macro format_str_date(str_date) -%}
+  {{ strptime(str_date, '%Y-%m-%d').strftime('%b %Y') }}
+{%- endmacro -%}
+
+{%- macro format_date_range(exp) -%}
+  {{ format_str_date(exp.startDate) }} – {% if exp.endDate %}{{ format_str_date(exp.endDate) }}{% else %}Present{% endif %}
+{%- endmacro -%}
+
+{%- macro country_flag(code) -%}
+  {% if code %}
+    {{ code.upper()
+       | replace("A","🇦")|replace("B","🇧")|replace("C","🇨")
+       |replace("D","🇩")|replace("E","🇪")|replace("F","🇫")
+       |replace("G","🇬")|replace("H","🇭")|replace("I","🇮")
+       |replace("J","🇯")|replace("K","🇰")|replace("L","🇱")
+       |replace("M","🇲")|replace("N","🇳")|replace("O","🇴")
+       |replace("P","🇵")|replace("Q","🇶")|replace("R","🇷")
+       |replace("S","🇸")|replace("T","🇹")|replace("U","🇺")
+       |replace("V","🇻")|replace("W","🇼")|replace("X","🇽")
+       |replace("Y","🇾")|replace("Z","🇿")
+    }}
+  {% endif %}
+{%- endmacro -%}
+
+<link rel="stylesheet" href="all.min.css">
+
+<h1>{{ basics.name }}</h1>
+{% if basics.label %}
+<p>{{ basics.label }}</p>
+{% endif %}
+
+{% if basics.description %}
+<p class="headline">{{ basics.description }}</p>
+{% endif %}
+
+
+<ul class="header">
+  {% if basics.phone %}
+  <li><span class="icon icon-phone"></span>{{ basics.phone }}</li>
+  {% endif %}
+  {% if basics.email %}
+  <li><span class="icon icon-mail"></span><a href="mailto:{{ basics.email }}">{{ basics.email }}</a></li>
+  {% endif %}
+  {% for p in basics.profiles %}
+    <li>
+      <span class="icon icon-{{ p.network|lower }}"></span>
+      <a href="{{ p.url }}">{{ p.username }}</a>
+    </li>
+  {% endfor %}
+  {% if basics.url %}
+  <li><span class="icon icon-link"></span><a href="{{ basics.url }}">{{ basics.url }}</a></li>
+  {% endif %}
+  {% if basics.location %}
+  <li><span class="icon icon-location-pin"></span>{{ basics.location.city }}{% if basics.location.countryCode %} ({{ basics.location.countryCode }}){% endif %}</li>
+  {% endif %}
+</ul>
+
+<!-- EDUCATION -->
+<div class="section-block">
+  <h2>Education</h2>
+  <ul class="education-list section-list">
+    {% for e in education %}
+    <li>
+      <div class="education-grid">
+        <div class="education-title">
+          <span class="icon fas fa-graduation-cap fa-fw"></span>
+          {{ e.area }}
+        </div>
+        <div class="education-date">{{ format_date_range(e) }}</div>
+
+        <div class="education-institution">
+          {% if e.url %}<a href="{{ e.url }}" class="resume-link">{{ e.institution }}</a>{% else %}{{ e.institution }}{% endif %}
+        </div>
+        <div class="education-location">
+          {{ country_flag(e.countryCode) }} {{ e.location }}
+        </div>
+
+        {% if e.courses %}
+        <div class="education-courses">
+          <span class="courses-label">Courses:</span>
+          <ul class="courses-list-inline">
+            {% for c in e.courses %}<li>{{ c }}</li>{% endfor %}
+          </ul>
+        </div>
+        {% endif %}
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<div class="section-block">
+  <h2>Work experience</h2>
+  <ul class="work-list section-list">
+    {% for w in work %}
+    <li>
+      <div class="work-grid">
+        <!-- Row 1: Icon + Position / Date -->
+        <div class="work-position">
+          <span class="icon fas fa-briefcase fa-fw"></span>
+          {{ w.position }}
+        </div>
+        <div class="work-date">{{ format_date_range(w) }}</div>
+
+        <!-- Row 2: Company name (with optional URL) / Location + Flag -->
+        <div class="work-company">
+          {% if w.url %}
+            <a href="{{ w.url }}" class="resume-link">{{ w.name }}</a>
+          {% else %}
+            {{ w.name }}
+          {% endif %}
+        </div>
+        <div class="work-location">
+          <span class="fas fa-map-marker-alt fa-fw"></span>
+          {{ w.location }} {{ country_flag(w.countryCode) }}
+        </div>
+      </div>
+
+      {% if w.highlights %}
+      <ul class="work-description">
+        {% for h in w.highlights %}
+        <li>{{ h }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+<!-- HACKATHON AWARDS -->
+{% if hackathons %}
+<div class="section-block">
+  <h2>Hackathon Awards</h2>
+  <ul class="projects section-list">
+    {% for h in hackathons %}
+    <li>
+      <div class="project-grid">
+        <div class="project-name">
+          <span class="icon fas fa-medal fa-fw"></span>
+          <a href="{{ h.url or '#' }}" class="project-link">{{ h.name }}</a>
+        </div>
+        <div class="project-date">{{ h.date }}</div>
+        <div class="project-desc">{{ h.description }}</div>
+        <div class="project-tags">
+          {% if h.keywords %}({{ h.keywords | join(', ') }}){% endif %}
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- PROJECTS -->
+{% if projects %}
+<div class="section-block">
+  <h2>Projects</h2>
+  <ul class="projects section-list">
+    {% for p in projects %}
+    <li>
+      <div class="project-grid">
+        <div class="project-name">
+          {% if p.key %}<span class="icon fas {{ p.key }} fa-fw"></span>{% endif %}
+          <a href="{{ p.url or '#' }}" class="project-link">{{ p.name }}</a>
+        </div>
+        <div class="project-date">{{ p.date }}</div>
+        <div class="project-desc">{{ p.description }}</div>
+        <div class="project-tags">
+          {% if p.keywords %}({{ p.keywords | join(', ') }}){% endif %}
+        </div>
+      </div>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- SKILLS -->
+<div class="section-block">
+  <h2>Skills</h2>
+  <ul class="keyval-list section-list">
+    {% for s in skills %}
+    <li>
+      <span class="key-title">{{ s.name }}</span>: {{ s.keywords|join(', ') }}
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+<!-- CERTIFICATES -->
+{% if certificates %}
+<div class="section-block">
+  <h2>Certificates</h2>
+  <ul class="keyval-list section-list">
+    {% for c in certificates %}
+    <li>
+      <span class="icon fas fa-certificate fa-fw"></span>
+      <a href="{{ c.url }}">{{ c.name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}
+
+<!-- HOBBIES -->
+{% if hobbies %}
+<div class="section-block">
+  <h2>Hobbies</h2>
+  <ul class="keyval-list section-list">
+    {% for h in hobbies %}
+    <li>
+      <span class="icon fas {{ h.key }} fa-fw"></span>
+      <span class="hobby-description">
+        {{ h.description }}
+        {% if h.link %}
+          <a href="{{ h.link }}" class="resume-link">{{ h.link_text or h.link }}</a>
+        {% endif %}
+      </span>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+{% endif %}

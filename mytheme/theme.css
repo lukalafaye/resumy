@@ -1,0 +1,340 @@
+/* ----------------------------------------
+   PAGE & FONTS
+---------------------------------------- */
+@page {
+    size: letter portrait;
+    margin: 2em 1cm 1cm 1cm;
+  }
+  @font-face {
+    font-family:"Roboto";
+    src:url("fonts/Roboto-Regular.woff2") format("woff2");
+    font-weight:400;
+  }
+  @font-face {
+    font-family:"Roboto";
+    src:url("fonts/Roboto-Bold.woff2") format("woff2");
+    font-weight:700;
+  }
+  @font-face {
+    font-family:"Font Awesome 6 Free";
+    src:url("webfonts/fa-solid-900.woff2") format("woff2");
+    font-weight:900; font-style:normal; font-display:block;
+  }
+  
+  /* ----------------------------------------
+     GLOBAL
+  ---------------------------------------- */
+  body {
+    font-family:'Roboto',sans-serif;
+    font-size:10pt; color:#333;
+  }
+  h1 {
+    font-weight:bold; font-size:32px;
+    text-align:center; margin-bottom:0.1em;
+  }
+  h2 {
+    font-size:16px; font-weight:bold;
+    text-transform:uppercase;
+    margin:0.5em 0 0.1em;
+    border-bottom:1px solid #0a75ad;
+    padding-bottom:0.1em;
+    page-break-after:avoid;
+  }
+  a, a:visited {
+    color:#0a75ad; text-decoration:none;
+  }
+  a:hover { text-decoration:underline; }
+  
+  /* ----------------------------------------
+     HEADER LINKS
+  ---------------------------------------- */
+  ul.header {
+    list-style:none; margin:0; padding:0;
+    font-size:9pt; text-align:center;
+  }
+  ul.header>li {
+    display:inline-block;
+  }
+  ul.header>li+li::before {
+    content:" | "; padding:0 5px;
+  }
+
+  .headline {
+    text-align: center;
+    font-style: italic;
+    font-size: 11pt;
+    color: #555;
+    margin: 0.2em 0 0.5em;  /* small top, a bit more below */
+  }
+  
+  
+  /* ----------------------------------------
+     ICONS
+  ---------------------------------------- */
+  .fas {
+    font-family:"Font Awesome 6 Free";
+    font-weight:900;
+  }
+  .fa-fw {
+    width:1.25em; text-align:center;
+  }
+  .icon, .fa {
+    font-size:11pt; color:#0a75ad;
+    margin-right:0.25em;   /* ← small space after icon */
+  }
+  
+  /* ----------------------------------------
+     SECTION WRAPPER
+  ---------------------------------------- */
+/* Allow section-blocks to break over pages */
+.section-block {
+    break-inside: auto;
+    page-break-inside: auto;
+    margin-bottom: 0.75em;
+  }
+  
+  /* Prevent section titles from being separated from content */
+  .section-block h2 {
+    page-break-after: avoid;
+    break-after: avoid-page;
+  }
+  
+  /* Ensure complete logical blocks stay together on one page */
+  .section-list > li,
+  .education-list > li,
+  .work-list > li,
+  .projects.section-list > li,
+  .keyval-list > li {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  
+
+  
+  
+  /* ----------------------------------------
+     SECTION-LIST (generic lists)
+  ---------------------------------------- */
+  .section-list {
+    list-style:none; margin:0; padding:0;
+  }
+  .section-list>li {
+    padding:0.4em 0;        /* ← tighter vertical padding */
+  }
+  .section-list>li+li {
+    border-top:1px solid #e0e0e0;
+  }
+  
+/* ----------------------------------------
+   PROJECT GRID (parallel to Education/Work)
+---------------------------------------- */
+.projects.section-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .projects.section-list > li {
+    padding: 0.4em 0;
+    border-top: 1px solid #e0e0e0;
+  }
+  .projects.section-list > li:first-child {
+    border-top: none;
+  }
+  
+  .project-grid {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "name       date"
+      "desc       tags";
+    column-gap: 1.5em;
+    row-gap: 0.3em;
+  }
+  
+  .project-name {
+    grid-area: name;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+  }
+  .project-name .icon {
+    margin-right: 0.25em;
+  }
+  .project-link {
+    color: #0a75ad;
+    text-decoration: none;
+  }
+  .project-link:hover {
+    text-decoration: underline;
+  }
+  
+  .project-date {
+    grid-area: date;
+    text-align: right;
+    color: #777;
+    font-size: 10pt;
+  }
+  
+  .project-desc {
+    grid-area: desc;
+    font-size: 10pt;
+    color: #333;
+  }
+  
+  .project-tags {
+    grid-area: tags;
+    text-align: right;    /* right‐aligned under date */
+    font-size: 9pt;
+    color: #555;
+  }
+  
+  
+  
+  /* ----------------------------------------
+     CERTIFICATES
+  ---------------------------------------- */
+  .keyval-list li .fa-certificate { color:#0a75ad; }
+  
+  /* ----------------------------------------
+     WORK GRID: mirror Education
+  ---------------------------------------- */
+  /* ----------------------------------------
+   WORK GRID (parallel to Education)
+---------------------------------------- */
+.work-grid {
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "position    date"
+      "company     location";
+    column-gap: 1.5em;
+    row-gap: 0.2em;
+    margin-bottom: 0.75em;
+  }
+  
+  /* Row 1: Position */
+  .work-position {
+    grid-area: position;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* Row 1: Date */
+  .work-date {
+    grid-area: date;
+    text-align: right;
+    color: #777;
+    font-size: 10pt;
+  }
+  
+  /* Row 2: Company (with link if provided) */
+  .work-company {
+    grid-area: company;
+  }
+  .work-company a.resume-link {
+    color: #0a75ad;
+    text-decoration: none;
+  }
+  .work-company a.resume-link:hover {
+    text-decoration: underline;
+  }
+  
+  /* Row 2: Location + Flag */
+  .work-location {
+    grid-area: location;
+    text-align: right;
+    font-size: 9pt;
+    color: #555;
+  }
+  .work-location .fa {
+    margin-right: 4px;
+    color: #0a75ad;
+  }
+  
+  /* Highlights bullets */
+  .work-description {
+    list-style: '• ';
+    padding-left: 20px;
+    margin: 0.2em 0 0 0;
+    font-size: 10pt;
+  }
+
+  
+  /* ----------------------------------------
+     EDUCATION GRID
+  ---------------------------------------- */
+  .education-grid {
+    display:grid;
+    grid-template-columns:1fr max-content;
+    grid-template-rows:auto auto auto;
+    grid-template-areas:
+      "title date"
+      "institution location"
+      "courses courses";
+    column-gap:2em; row-gap:0.3em;
+  }
+  .education-title       { grid-area:title; font-weight:bold; }
+  .education-date        {
+    grid-area:date; text-align:right;
+    color:#777;font-size:10pt;
+  }
+  .education-institution { grid-area:institution; }
+  .education-location {
+    grid-area:location; text-align:right;
+    font-size:9pt; color:#555;
+  }
+  .education-location .fa {
+    margin-right:0.25em; color:#0a75ad;
+  }
+  .education-courses {
+    grid-area:courses; display:flex;
+    align-items:flex-start; gap:0.5em;
+  }
+  .courses-label { font-weight:bold; }
+  .courses-list-inline {
+    display:inline-flex; flex-wrap:wrap;
+    list-style:none; margin:0; padding:0;
+  }
+  .courses-list-inline li {
+    margin-right:0.75em; font-size:9pt; color:#444;
+  }
+  
+  /* ----------------------------------------
+     WIDOWS & ORPHANS
+  ---------------------------------------- */
+  ul.keyval-list,
+  ul.work-list { orphan:2; widow:2; }
+  
+
+  /* General section styling */
+.section-block {
+    margin-bottom: 2em;
+  }
+  
+  /* Skills title */
+  .section-block h2 {
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  /* List styling */
+  .section-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  /* Key-value pair styling */
+  .keyval-list li {
+    margin-bottom: 0.3em;
+  }
+  
+  /* Key title (e.g., "Programming Languages") */
+  .key-title {
+    font-weight: bold;
+  }
+  
